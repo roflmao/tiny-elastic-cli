@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import sys, re, os, re, json
+import sys, re, os, re, json, ssl
 import certifi
 import argparse
 import configparser
@@ -45,7 +45,7 @@ def load_args():
 
 def main():
   args = load_args()
-  es = Elasticsearch([args.url], ca_certs=certifi.where())
+  es = Elasticsearch([args.url], ca_certs=certifi.where, verify_certs=False, request_timeout=30)
   results = helpers.scan(es,
     index=args.index,
     doc_type=args.doc_type,
