@@ -26,6 +26,9 @@ In the case of local install, the script will be available through `~/.local/bin
 
 `elastic 'foo:bar' --source 'otherfield' | jq .`
 
+HTTPS endpoints are supported. Use `--insecure` to skip TLS certificate
+verification if needed.
+
 ## License ##
 
 (The MIT License)
