@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import sys, re, os, re, json, ssl
-import certifi
 import argparse
 import configparser
-from elasticsearch import Elasticsearch
-from elasticsearch import helpers
+import json
+import os
+import re
+import sys
+
+import certifi
+from opensearchpy import OpenSearch
+from opensearchpy import helpers
 
 def redact_url(url):
   if '@' not in url:
@@ -39,13 +43,23 @@ def load_args():
   parser.add_argument('--index', dest='index', type=str, help='Default: %s'%elastic_index, default=elastic_index)
   parser.add_argument('--size', dest='size', type=int, help='Number of documents per scroll, default: 9999', default=9999)
   parser.add_argument('--doctype', dest='doc_type', type=str, help='Document type to query for, default: all', default=elastic_doc_type)
-  parser.add_argument('--order', dest='order', action='store_true', help='Elastic scroll "keep_order", default: false', default=False)
+  parser.add_argument('--order', dest='order', action='store_true',
+                      help='OpenSearch scroll "keep_order", default: false',
+                      default=False)
   parser.add_argument('--source', dest='source', help='Comma separated list of fields, default: all', type=lambda x: x.split(','))
+  parser.add_argument('--insecure', dest='insecure', action='store_true',
+                      help='Disable TLS certificate verification')
   return parser.parse_args()
 
 def main():
   args = load_args()
-  es = Elasticsearch([args.url], ca_certs=certifi.where, verify_certs=False, request_timeout=30)
+  verify = not args.insecure
+  es = OpenSearch(
+    [args.url],
+    ca_certs=certifi.where(),
+    verify_certs=verify,
+    request_timeout=30,
+  )
   results = helpers.scan(es,
     index=args.index,
     doc_type=args.doc_type,
