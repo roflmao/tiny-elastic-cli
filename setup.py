@@ -8,7 +8,7 @@ setuptools.setup(
   version='0.1.5',
   author='Einar Otto Stangvik',
   author_email='einaros@gmail.com',
-  description='A very tiny elasticsearch query cli',
+  description='A very tiny OpenSearch query cli',
   long_description=long_description,
   long_description_content_type='text/markdown',
   url='https://github.com/einaros/tiny-elastic-cli',
@@ -21,7 +21,7 @@ setuptools.setup(
   scripts=['bin/elastic'],
   install_requires=[
     'certifi',
-    'elasticsearch',
+    'opensearch-py',
     'urllib3>=1.22'
   ]
 )

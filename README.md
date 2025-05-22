@@ -1,6 +1,6 @@
 # tiny-elastic-cli #
 
-A simple cli for querying elasticsearch. Outputs json.
+A simple CLI for querying OpenSearch. Compatible with Elasticsearch and outputs JSON.
 
 ## Config ## 
 
@@ -25,6 +25,9 @@ In the case of local install, the script will be available through `~/.local/bin
 `elastic 'foo:bar'`
 
 `elastic 'foo:bar' --source 'otherfield' | jq .`
+
+HTTPS endpoints are supported. Use `--insecure` to skip TLS certificate
+verification if needed.
 
 ## License ##
 
